@@ -326,4 +326,44 @@ then appears. Now read the file Similix/README.
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 
+Running Similix on modern Chez Scheme (Similix-revised)
+-------------------------------------------------------
+
+This revised distribution runs on current Chez Scheme (tested with
+Chez Scheme 10.0.0, Linux aarch64).  No file renaming (script1/script2)
+and no compile-file bootstrap are needed any more: system/sim-chez.ss
+loads all system files, including spec.sim and cogen.sim, directly from
+source, in the same way sim-scm.scm does for Scm.
+
+To run the examples:
+
+(1) Start Chez Scheme with the working directory set to the examples
+    directory, and replace the first load expression of a job file,
+
+        (load "../system/sim-scm.scm")
+
+    by
+
+        (load "../system/sim-chez.ss")
+
+    (the sim-chez.ss file also loads correctly when the working
+    directory is the system directory itself; it auto-detects).
+
+(2) Similix was written for 1993-era Scheme systems, including Chez
+    Scheme 3.2, whose reader was case-insensitive.  Modern Chez is
+    case-sensitive, so the first form of sim-chez.ss sets
+
+        (case-sensitive #f)
+
+    which restores the historical behaviour under which e.g.
+    **similix-library** (generated cogen.sim) and **Similix-library**
+    (loadsysf.scm) denote the same variable.
+
+The example jobs getting-started, MP-job, com-job, mw-job and cog-job
+all run to completion on Chez Scheme 10.0.0, with the self-application
+jobs (cogen/comp) reproducing the original residual programs (#t).
+
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
 (end of README file)
